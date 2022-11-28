@@ -183,6 +183,28 @@ function Test({
   football,
   handleBoard,
 }) {
+  const marqueeRef = useRef();
+
+  const itemsRef = useRef([]);
+
+  useFrame(() => {
+    for (let i = 0; i < itemsRef.current.length; i++) {
+      let mesh = itemsRef.current[i];
+      let y = 5.4 - parseInt(i / 5) * 1.42;
+      let z = (i % 5) * 1.5 - 10.5;
+      mesh.position.set(-12, y, -z);
+      i < football ? (mesh.visible = true) : (mesh.visible = false);
+    }
+  });
+
+  useFrame((state) => {
+    let elapsed = state.clock.getElapsedTime();
+    /*   console.log(5 - (elapsed % (marquee.length - 11)) * 2); */
+
+    marqueeRef.current.position.x =
+      5 - (elapsed % (marquee.length - (25 - space))) * speed;
+  });
+
   return (
     <>
       <OrbitControls
@@ -239,8 +261,8 @@ function Test({
       />
       <ambientLight color={0xffffff} intensity={0.1} />
 
-      <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
-      {/*     <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
+      {/*       <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
+      <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
       <Ground
         position={[0, 0, 0]}
         rotation-x={-Math.PI * 0.5}
@@ -260,7 +282,7 @@ function Test({
             handleBoard={handleBoard}
           />
         </mesh>
-      ))}  */}
+      ))} */}
 
       {/*       <Text
         ref={marqueeRef}
