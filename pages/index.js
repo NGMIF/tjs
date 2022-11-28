@@ -212,7 +212,7 @@ export default function Home() {
           board ? "grid" : "hidden"
         } `}
       >
-        <video className="w-full col-span-2 rounded-2xl" autoplay controls>
+        <video className="w-full col-span-2 rounded-2xl" autoPlay controls>
           <source src="/videos/football.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
