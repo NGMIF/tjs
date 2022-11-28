@@ -274,7 +274,7 @@ function Test({
         </mesh>
       ))}
 
-      {/*       <Text
+      {/*          <Text
         ref={marqueeRef}
         position={[5, 8.75, -5.532]}
         scale={11}
@@ -285,7 +285,7 @@ function Test({
       >
         {marquee}
       </Text>
-
+ */}
       <Text
         rotation-y={-Math.PI * 0.224}
         position={[10.67, 4.7, -1.09]}
@@ -301,13 +301,14 @@ function Test({
       >
         {website}
       </Text>
-      <Svg
+
+      {/*  <Svg
         src="/logos/m.svg"
         skipFill={false}
         skipStrokes={false}
         scale={3.7}
         position={[-3.7, 7.5, -5.5]}
-      ></Svg> */}
+      ></Svg>  */}
     </>
   );
 }
