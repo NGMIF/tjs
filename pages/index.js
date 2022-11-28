@@ -171,7 +171,18 @@ function Content({
   );
 }
 
-function Test({ free }) {
+function Test({
+  wireframe,
+  free,
+  website,
+  map,
+  marquee,
+  space,
+  speed,
+  groundMap,
+  football,
+  handleBoard,
+}) {
   return (
     <>
       <OrbitControls
@@ -227,6 +238,63 @@ function Test({ free }) {
         color="white"
       />
       <ambientLight color={0xffffff} intensity={0.1} />
+      {/*       <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
+      <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
+      <Ground
+        position={[0, 0, 0]}
+        rotation-x={-Math.PI * 0.5}
+        map={groundMap}
+      />
+      <Computer position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
+      <Shelves position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
+      <Door position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
+      <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
+      <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
+
+      {Array.from(Array(15).keys()).map((v, i) => (
+        <mesh key={i} ref={(el) => (itemsRef.current[i] = el)}>
+          <Football
+            scale={[4, 4, 4]}
+            wireframe={wireframe}
+            handleBoard={handleBoard}
+          />
+        </mesh>
+      ))} */}
+
+      {/*    <Text
+        ref={marqueeRef}
+        position={[5, 8.75, -5.532]}
+        scale={11}
+        color="white"
+        anchorX="left"
+        anchorY="bottom-baseline"
+        font="/Display.ttf"
+      >
+        {marquee}
+      </Text> */}
+
+      <Text
+        rotation-y={-Math.PI * 0.224}
+        position={[10.67, 4.7, -1.09]}
+        scale={2.2}
+        anchorX="center"
+        anchorY="center"
+        outlineWidth={0.003}
+        outlineColor={0x999999}
+        strokeWidth={2}
+        strokeColor={0x999999}
+        strokeOpacity={0.7}
+        outlineOpacity={0.9}
+      >
+        {website}
+      </Text>
+      <Svg
+        src="/logos/m.svg"
+        skipFill={false}
+        skipStrokes={false}
+        scale={3.7}
+        position={[-3.7, 7.5, -5.5]}
+      ></Svg>
     </>
   );
 }
@@ -550,7 +618,18 @@ export default function Home() {
             football={football}
             handleBoard={handleBoard}
           /> */}
-          <Test />
+          <Test
+            website={website}
+            map={map}
+            marquee={marquee}
+            space={space}
+            speed={speed}
+            wireframe={wireframe}
+            free={free}
+            groundMap={groundMap}
+            football={football}
+            handleBoard={handleBoard}
+          />
         </Canvas>
       </div>
       <div className=" flex items-center h-screen text-9xl font-black uppercase justify-center text-yellow-500  bg-fuchsia-700">
