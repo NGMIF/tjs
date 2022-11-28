@@ -492,6 +492,9 @@ export default function Home() {
           />
         </Canvas>
       </div>
+      <div className=" flex items-center h-screen text-9xl font-black uppercase justify-center text-yellow-500  bg-fuchsia-700">
+        test
+      </div>
     </Suspense>
   );
 }
