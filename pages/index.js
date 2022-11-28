@@ -183,6 +183,18 @@ function Test({
   football,
   handleBoard,
 }) {
+  const itemsRef = useRef([]);
+
+  useFrame(() => {
+    for (let i = 0; i < itemsRef.current.length; i++) {
+      let mesh = itemsRef.current[i];
+      let y = 5.4 - parseInt(i / 5) * 1.42;
+      let z = (i % 5) * 1.5 - 10.5;
+      mesh.position.set(-12, y, -z);
+      i < football ? (mesh.visible = true) : (mesh.visible = false);
+    }
+  });
+
   return (
     <>
       <OrbitControls
@@ -252,7 +264,7 @@ function Test({
       <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
       <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
 
-      {/*       {Array.from(Array(15).keys()).map((v, i) => (
+      {Array.from(Array(15).keys()).map((v, i) => (
         <mesh key={i} ref={(el) => (itemsRef.current[i] = el)}>
           <Football
             scale={[4, 4, 4]}
@@ -260,7 +272,7 @@ function Test({
             handleBoard={handleBoard}
           />
         </mesh>
-      ))}  */}
+      ))}
 
       {/*       <Text
         ref={marqueeRef}
@@ -632,9 +644,6 @@ export default function Home() {
             handleBoard={handleBoard}
           />
         </Canvas>
-      </div>
-      <div className=" flex items-center h-screen text-9xl font-black uppercase justify-center text-yellow-500  bg-fuchsia-700">
-        test
       </div>
     </Suspense>
   );
