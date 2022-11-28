@@ -478,7 +478,7 @@ export default function Home() {
             position: [-6, 7, 7],
           }}
         >
-          <Content
+          {/*  <Content
             website={website}
             map={map}
             marquee={marquee}
@@ -489,7 +489,7 @@ export default function Home() {
             groundMap={groundMap}
             football={football}
             handleBoard={handleBoard}
-          />
+          /> */}
         </Canvas>
       </div>
       <div className=" flex items-center h-screen text-9xl font-black uppercase justify-center text-yellow-500  bg-fuchsia-700">
