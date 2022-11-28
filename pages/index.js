@@ -240,7 +240,7 @@ function Test({
       <ambientLight color={0xffffff} intensity={0.1} />
 
       <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
-      {/*     <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
+      <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
       <Ground
         position={[0, 0, 0]}
         rotation-x={-Math.PI * 0.5}
@@ -252,7 +252,7 @@ function Test({
       <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
       <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
 
-      {Array.from(Array(15).keys()).map((v, i) => (
+      {/*       {Array.from(Array(15).keys()).map((v, i) => (
         <mesh key={i} ref={(el) => (itemsRef.current[i] = el)}>
           <Football
             scale={[4, 4, 4]}
