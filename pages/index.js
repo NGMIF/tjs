@@ -261,7 +261,7 @@ function Test({
         </mesh>
       ))} */}
 
-      {/*    <Text
+      {/*       <Text
         ref={marqueeRef}
         position={[5, 8.75, -5.532]}
         scale={11}
@@ -271,7 +271,7 @@ function Test({
         font="/Display.ttf"
       >
         {marquee}
-      </Text> */}
+      </Text>
 
       <Text
         rotation-y={-Math.PI * 0.224}
@@ -294,7 +294,7 @@ function Test({
         skipStrokes={false}
         scale={3.7}
         position={[-3.7, 7.5, -5.5]}
-      ></Svg>
+      ></Svg> */}
     </>
   );
 }
