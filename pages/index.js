@@ -1,14 +1,15 @@
 import { Suspense, useState, useRef, useMemo } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, extend } from "@react-three/fiber";
 import Collapsible from "react-collapsible";
 import Image from "next/image";
 import {
   Environment,
   OrbitControls,
   PerspectiveCamera,
-  Text,
   Svg,
+  Text,
 } from "@react-three/drei";
+
 import { Ground } from "../components/Ground";
 
 import { Wall } from "../components/Wall";
@@ -20,6 +21,8 @@ import { Computer } from "../components/Computer";
 import { CeilingLight } from "../components/CeilingLight";
 import { Map } from "../components/Map";
 import { Football } from "../components/Football";
+
+extend({ Text });
 
 function Content({
   wireframe,
@@ -197,6 +200,15 @@ function Test({
 
   return (
     <>
+      <Text
+        scale={20}
+        position={[0, 6, -2]}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+      >
+        HELLOW WORLD
+      </Text>
       <OrbitControls
         enablePan={free}
         enableZoom={true}
@@ -302,17 +314,6 @@ function Test({
         {website}
       </Text> */}
 
-      <Suspense fallback={null}>
-        <Text
-          scale={20}
-          position={[0, 6, -2]}
-          color="white"
-          anchorX="center"
-          anchorY="middle"
-        >
-          HELLOW WORLD
-        </Text>
-      </Suspense>
       <Svg
         src="/logos/m.svg"
         skipFill={false}
