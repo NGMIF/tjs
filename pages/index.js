@@ -9,7 +9,7 @@ import {
   Svg,
   MeshReflectorMaterial,
 } from "@react-three/drei";
-import { Text } from "@react-three/drei";
+import { Text3D, Center } from "@react-three/drei";
 import { Ground } from "../components/Ground";
 
 import { Wall } from "../components/Wall";
@@ -198,18 +198,24 @@ function Test({
 
   return (
     <>
-      <Text
+      {/*  <Text
         fontSize="3"
         textAlign="justify"
         font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
         anchorX="center"
         anchorY="middle"
         position={[0, 5, 0]}
-        outlineWidth={0.2}
+        outlineWidth={0.1}
       >
         LOREM IPSUM DOLO
         <MeshReflectorMaterial toneMapped={false} />
-      </Text>
+      </Text> */}
+      <Center top center position={[0, 5, 0]}>
+        <Text3D font="/Display.json" size={2} height={0}>
+          Hello world!
+        </Text3D>
+      </Center>
+
       <OrbitControls
         enablePan={free}
         enableZoom={true}
