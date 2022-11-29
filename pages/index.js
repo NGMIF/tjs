@@ -9,7 +9,7 @@ import {
   Svg,
   MeshReflectorMaterial,
 } from "@react-three/drei";
-import { Text3D, Center } from "@react-three/drei";
+import { Text, Text3D, Center } from "@react-three/drei";
 import { Ground } from "../components/Ground";
 
 import { Wall } from "../components/Wall";
@@ -35,7 +35,6 @@ function Content({
   handleBoard,
 }) {
   const marqueeRef = useRef();
-
   const itemsRef = useRef([]);
 
   useFrame(() => {
@@ -111,6 +110,7 @@ function Content({
         color="white"
       />
       <ambientLight color={0xffffff} intensity={0.1} />
+
       <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
       <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
       <Ground
@@ -134,192 +134,31 @@ function Content({
         </mesh>
       ))}
 
-      <Text
+      <Center
         ref={marqueeRef}
-        position={[5, 8.75, -5.532]}
-        scale={11}
-        color="white"
-        anchorX="left"
-        anchorY="bottom-baseline"
-        font="/Display.ttf"
+        top
+        right
+        position={[5, 8.65, -5.532]}
+        scale={0.75}
       >
-        {marquee}
-      </Text>
-
-      <Text
-        rotation-y={-Math.PI * 0.224}
-        position={[10.67, 4.7, -1.09]}
-        scale={2.2}
-        anchorX="center"
-        anchorY="center"
-        outlineWidth={0.003}
-        outlineColor={0x999999}
-        strokeWidth={2}
-        strokeColor={0x999999}
-        strokeOpacity={0.7}
-        outlineOpacity={0.9}
-      >
-        {website}
-      </Text>
-      <Svg
-        src="/logos/m.svg"
-        skipFill={false}
-        skipStrokes={false}
-        scale={3.7}
-        position={[-3.7, 7.5, -5.5]}
-      ></Svg>
-    </>
-  );
-}
-
-function Test({
-  wireframe,
-  free,
-  website,
-  map,
-  marquee,
-  space,
-  speed,
-  groundMap,
-  football,
-  handleBoard,
-}) {
-  const itemsRef = useRef([]);
-
-  useFrame(() => {
-    for (let i = 0; i < itemsRef.current.length; i++) {
-      let mesh = itemsRef.current[i];
-      let y = 5.4 - parseInt(i / 5) * 1.42;
-      let z = (i % 5) * 1.5 - 10.5;
-      mesh.position.set(-12, y, -z);
-      i < football ? (mesh.visible = true) : (mesh.visible = false);
-    }
-  });
-
-  return (
-    <>
-      {/*  <Text
-        fontSize="3"
-        textAlign="justify"
-        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-        anchorX="center"
-        anchorY="middle"
-        position={[0, 5, 0]}
-        outlineWidth={0.1}
-      >
-        LOREM IPSUM DOLO
-        <MeshReflectorMaterial toneMapped={false} />
-      </Text> */}
-      <Center top center position={[0, 5, 0]}>
-        <Text3D font="/Display.json" size={2} height={0}>
-          Hello world!
+        <Text3D font="/Display.json" size={1} height={0}>
+          {marquee}
+          <MeshReflectorMaterial toneMapped={false} color={0x999999} />
         </Text3D>
       </Center>
 
-      <OrbitControls
-        enablePan={free}
-        enableZoom={true}
-        target={[0, 5, 0]}
-        minPolarAngle={!free ? "1.2" : "0.5"}
-        maxPolarAngle={!free ? "1.55" : "2"}
-        minAzimuthAngle={!free ? "-0.35" : "-2"}
-        maxAzimuthAngle={!free ? "0.35" : "2"}
-        minDistance={!free ? "12" : "0"}
-        maxDistance={!free ? "22" : "100"}
-        rotateSpeed={0.15}
-      />
-      <PerspectiveCamera makeDefault fov={50} position={[0, 5, 20]} />
-      <color args={[0.8, 0.8, 0.8]} attach="background" />
-      <Environment
-        intensity={1}
-        background={true}
-        blur={0}
-        ground={true}
-        files="hdri/studio.hdr"
-        path="/"
-      ></Environment>
-      <spotLight
-        color={[1, 1, 1]}
-        intensity={0.2}
-        angle={1}
-        penumbra={1}
-        position={[10, 15, 10]}
-        castShadow
-        shadow-bias={-0.0001}
-      />
-      <spotLight
-        color={[1, 1, 1]}
-        intensity={0.2}
-        angle={1}
-        penumbra={1}
-        position={[-10, 15, 10]}
-        castShadow
-        shadow-bias={-0.0001}
-      />
-      <directionalLight
-        castShadow={true}
-        intensity={0.3}
-        position={[5, 5, -5]}
-        color="white"
-      />
-      <directionalLight
-        castShadow={true}
-        intensity={0.2}
-        position={[-10, 10, -5]}
-        color="white"
-      />
-      <ambientLight color={0xffffff} intensity={0.1} />
-
-      <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
-      <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
-      <Ground
-        position={[0, 0, 0]}
-        rotation-x={-Math.PI * 0.5}
-        map={groundMap}
-      />
-      <Computer position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
-      <Shelves position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
-      <Door position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
-      <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
-      <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
-
-      {Array.from(Array(15).keys()).map((v, i) => (
-        <mesh key={i} ref={(el) => (itemsRef.current[i] = el)}>
-          <Football
-            scale={[4, 4, 4]}
-            wireframe={wireframe}
-            handleBoard={handleBoard}
-          />
-        </mesh>
-      ))}
-
-      {/*            <Text
-        ref={marqueeRef}
-        position={[5, 8.75, -5.532]}
-        scale={11}
-        color="white"
-        anchorX="left"
-        anchorY="bottom-baseline"
-        font="/Display.ttf"
-      >
-        {marquee}
-      </Text>
-
-      <Text
+      <Center
+        middle
+        center
         rotation-y={-Math.PI * 0.224}
-        position={[10.67, 4.7, -1.09]}
-        scale={2.2}
-        anchorX="center"
-        anchorY="center"
-        outlineWidth={0.003}
-        outlineColor={0x999999}
-        strokeWidth={2}
-        strokeColor={0x999999}
-        strokeOpacity={0.7}
-        outlineOpacity={0.9}
+        position={[10.67, 4.55, -1.09]}
+        scale={[0.3, 0.35, 0.3]}
       >
-        {website}
-      </Text> */}
+        <Text3D font="/websiteFont.json" size={0.5} height={0}>
+          {website}
+          <MeshReflectorMaterial toneMapped={false} color={0x999999} />
+        </Text3D>
+      </Center>
 
       <Svg
         src="/logos/m.svg"
@@ -351,7 +190,7 @@ export default function Home() {
   ]);
   const [wireframe, setWireframe] = useState(false);
   const [free, setFree] = useState(false);
-  const [space, setSpace] = useState(8);
+  const [space, setSpace] = useState(7);
   const [speed, setSpeed] = useState(2);
   const [map, setMap] = useState("NYC");
   const [imageMode, setImageMode] = useState(false);
@@ -639,19 +478,7 @@ export default function Home() {
             position: [-6, 7, 7],
           }}
         >
-          {/*  <Content
-            website={website}
-            map={map}
-            marquee={marquee}
-            space={space}
-            speed={speed}
-            wireframe={wireframe}
-            free={free}
-            groundMap={groundMap}
-            football={football}
-            handleBoard={handleBoard}
-          /> */}
-          <Test
+          <Content
             website={website}
             map={map}
             marquee={marquee}
