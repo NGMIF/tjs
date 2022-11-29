@@ -199,12 +199,12 @@ function Test({
     <>
       <Text
         color="#EC2D2D"
-        fontSize="1"
+        fontSize="5"
         textAlign="justify"
         font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
         anchorX="center"
         anchorY="middle"
-        position={[0, 5, 0]}
+        position={[0, 2, 0]}
       >
         LOREM IPSUM DOLO
       </Text>
