@@ -136,9 +136,9 @@ function Content({
 
       <Center
         ref={marqueeRef}
-        top
+        bottom
         right
-        position={[5, 8.65, -5.532]}
+        position={[5, 9.75, -5.532]}
         scale={0.75}
       >
         <Text3D font="/Display.json" size={1} height={0}>
