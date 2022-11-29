@@ -8,7 +8,7 @@ import {
   PerspectiveCamera,
   Svg,
 } from "@react-three/drei";
-import { Text } from "troika-three-text";
+import { Text } from "@react-three/drei";
 import { Ground } from "../components/Ground";
 
 import { Wall } from "../components/Wall";
@@ -20,8 +20,6 @@ import { Computer } from "../components/Computer";
 import { CeilingLight } from "../components/CeilingLight";
 import { Map } from "../components/Map";
 import { Football } from "../components/Football";
-
-extend({ Text });
 
 function Content({
   wireframe,
@@ -187,15 +185,6 @@ function Test({
 }) {
   const itemsRef = useRef([]);
 
-  const [opts, setOpts] = useState({
-    fontSize: 2,
-    color: "#99ccff",
-    maxWidth: 300,
-    lineHeight: 1,
-    letterSpacing: 0,
-    textAlign: "justify",
-  });
-
   useFrame(() => {
     for (let i = 0; i < itemsRef.current.length; i++) {
       let mesh = itemsRef.current[i];
@@ -208,13 +197,17 @@ function Test({
 
   return (
     <>
-      <text
-        {...opts}
-        text="HELLOW WORLD"
+      <Text
+        color="#EC2D2D"
+        fontSize="1"
+        textAlign="justify"
+        font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
         anchorX="center"
         anchorY="middle"
-        position={[0, 8, -2]}
-      ></text>
+        position={[0, 5, 0]}
+      >
+        LOREM IPSUM DOLO
+      </Text>
       <OrbitControls
         enablePan={free}
         enableZoom={true}
