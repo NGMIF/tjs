@@ -7,9 +7,8 @@ import {
   OrbitControls,
   PerspectiveCamera,
   Svg,
-  Text,
 } from "@react-three/drei";
-
+import { Text } from "troika-three-text";
 import { Ground } from "../components/Ground";
 
 import { Wall } from "../components/Wall";
@@ -188,6 +187,15 @@ function Test({
 }) {
   const itemsRef = useRef([]);
 
+  const [opts, setOpts] = useState({
+    fontSize: 2,
+    color: "#99ccff",
+    maxWidth: 300,
+    lineHeight: 1,
+    letterSpacing: 0,
+    textAlign: "justify",
+  });
+
   useFrame(() => {
     for (let i = 0; i < itemsRef.current.length; i++) {
       let mesh = itemsRef.current[i];
@@ -200,15 +208,13 @@ function Test({
 
   return (
     <>
-      <Text
-        scale={20}
-        position={[0, 6, -2]}
-        color="white"
+      <text
+        {...opts}
+        text="HELLOW WORLD"
         anchorX="center"
         anchorY="middle"
-      >
-        HELLOW WORLD
-      </Text>
+        position={[0, 8, -2]}
+      ></text>
       <OrbitControls
         enablePan={free}
         enableZoom={true}
