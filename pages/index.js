@@ -198,7 +198,7 @@ function Test({
   return (
     <>
       <Text
-        color="#EC2D2D"
+        color="green"
         fontSize="5"
         textAlign="justify"
         font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
