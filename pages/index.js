@@ -198,13 +198,18 @@ function Test({
   return (
     <>
       <Text
-        color="green"
-        fontSize="5"
+        fontSize="3"
         textAlign="justify"
         font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
         anchorX="center"
         anchorY="middle"
-        position={[0, 2, 0]}
+        position={[0, 5, 0]}
+        outlineWidth={0.2}
+        outlineColor={"green"}
+        strokeWidth={2}
+        strokeColor={"red"}
+        strokeOpacity={0.7}
+        outlineOpacity={0.9}
       >
         LOREM IPSUM DOLO
       </Text>
