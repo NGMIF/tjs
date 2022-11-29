@@ -301,6 +301,15 @@ function Test({
       >
         {website}
       </Text> */}
+      <Text
+        scale={20}
+        position={[0, 6, -2]}
+        color="white"
+        anchorX="center"
+        anchorY="middle"
+      >
+        HELLOW WORLD
+      </Text>
       <Svg
         src="/logos/m.svg"
         skipFill={false}
