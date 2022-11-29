@@ -7,6 +7,7 @@ import {
   OrbitControls,
   PerspectiveCamera,
   Svg,
+  MeshReflectorMaterial,
 } from "@react-three/drei";
 import { Text } from "@react-three/drei";
 import { Ground } from "../components/Ground";
@@ -205,13 +206,9 @@ function Test({
         anchorY="middle"
         position={[0, 5, 0]}
         outlineWidth={0.2}
-        outlineColor={"green"}
-        strokeWidth={2}
-        strokeColor={"red"}
-        strokeOpacity={0.7}
-        outlineOpacity={0.9}
       >
         LOREM IPSUM DOLO
+        <MeshReflectorMaterial toneMapped={false} />
       </Text>
       <OrbitControls
         enablePan={free}
