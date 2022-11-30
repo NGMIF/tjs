@@ -1,5 +1,5 @@
-import { Suspense, useState, useRef, useMemo } from "react";
-import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { Suspense, useState, useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import Collapsible from "react-collapsible";
 import Image from "next/image";
 import {
@@ -9,18 +9,20 @@ import {
   Svg,
   MeshReflectorMaterial,
 } from "@react-three/drei";
-import { Text, Text3D, Center } from "@react-three/drei";
-import { Ground } from "../components/Ground";
+import { Text3D, Center } from "@react-three/drei";
 
-import { Wall } from "../components/Wall";
-import { Door } from "../components/Door";
-import { Ceiling } from "../components/Ceiling";
+import Meta from "../components/meta";
 
-import { Shelves } from "../components/Shelves";
-import { Computer } from "../components/Computer";
-import { CeilingLight } from "../components/CeilingLight";
-import { Map } from "../components/Map";
-import { Football } from "../components/Football";
+import { Ground } from "../components/3d/Ground";
+import { Wall } from "../components/3d/Wall";
+import { Door } from "../components/3d/Door";
+import { Ceiling } from "../components/3d/Ceiling";
+import { CeilingLight } from "../components/3d/CeilingLight";
+import { Shelves } from "../components/3d/Shelves";
+import { Computer } from "../components/3d/Computer";
+import { Map } from "../components/3d/Map";
+
+import { Football } from "../components/3d/Football";
 
 function Content({
   wireframe,
@@ -49,8 +51,6 @@ function Content({
 
   useFrame((state) => {
     let elapsed = state.clock.getElapsedTime();
-    /*   console.log(5 - (elapsed % (marquee.length - 11)) * 2); */
-
     marqueeRef.current.position.x =
       5 - (elapsed % (marquee.length - (25 - space))) * speed;
   });
@@ -70,7 +70,9 @@ function Content({
         rotateSpeed={0.15}
       />
       <PerspectiveCamera makeDefault fov={50} position={[0, 5, 20]} />
+
       <color args={[0.8, 0.8, 0.8]} attach="background" />
+
       <Environment
         intensity={1}
         background={true}
@@ -78,7 +80,9 @@ function Content({
         ground={true}
         files="hdri/studio.hdr"
         path="/"
-      ></Environment>
+      />
+
+      <ambientLight color={0xffffff} intensity={0.1} />
       <spotLight
         color={[1, 1, 1]}
         intensity={0.2}
@@ -109,7 +113,6 @@ function Content({
         position={[-10, 10, -5]}
         color="white"
       />
-      <ambientLight color={0xffffff} intensity={0.1} />
 
       <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
       <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
@@ -141,7 +144,7 @@ function Content({
         position={[5, 9.75, -5.532]}
         scale={0.75}
       >
-        <Text3D font="/Display.json" size={1} height={0}>
+        <Text3D font="/fonts/Display.json" size={1} height={0}>
           {marquee}
           <MeshReflectorMaterial toneMapped={false} color={0x999999} />
         </Text3D>
@@ -154,14 +157,14 @@ function Content({
         position={[10.67, 4.55, -1.09]}
         scale={[0.3, 0.35, 0.3]}
       >
-        <Text3D font="/websiteFont.json" size={0.5} height={0}>
+        <Text3D font="/fonts/websiteFont.json" size={0.5} height={0}>
           {website}
           <MeshReflectorMaterial toneMapped={false} color={0x999999} />
         </Text3D>
       </Center>
 
       <Svg
-        src="/logos/m.svg"
+        src="/logos/hello.svg"
         skipFill={false}
         skipStrokes={false}
         scale={3.7}
@@ -207,6 +210,7 @@ export default function Home() {
   };
   return (
     <Suspense fallback={null}>
+      <Meta />
       <div
         className={`duration-500 ring-offset-green-200 ring-green-200 hover:ring-4 hover:ring-offset-2 ring-opacity-50 justify-center grid-cols-5 rounded-3xl items-center fixed top-1/3 mx-auto left-0 right-0 w-1/3 bg-green-100/20 text-green-100 backdrop-blur-md z-50 h-auto p-4 gap-4 ${
           board ? "grid" : "hidden"
