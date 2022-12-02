@@ -3,6 +3,11 @@ import { useGLTF, MeshReflectorMaterial } from "@react-three/drei";
 
 export function Door(props) {
   const { nodes } = useGLTF("/scene/Door.glb");
+
+  React.useEffect(() => {
+    console.log(props.mainColor);
+  }, []);
+
   return (
     <group {...props} dispose={null}>
       <mesh castShadow={true} geometry={nodes.Door.geometry}>

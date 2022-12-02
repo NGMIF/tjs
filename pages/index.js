@@ -8,8 +8,13 @@ import {
   PerspectiveCamera,
   Svg,
   MeshReflectorMaterial,
+  Text3D,
+  Center,
 } from "@react-three/drei";
-import { Text3D, Center } from "@react-three/drei";
+
+import { ChromePicker } from "react-color";
+import { HexColorPicker } from "react-colorful";
+import { PopoverPicker } from "../components/PopoverPicker";
 
 import Meta from "../components/meta";
 
@@ -27,16 +32,13 @@ import { Football } from "../components/3d/Football";
 function Content({
   wireframe,
   free,
-  website,
   map,
-  marquee,
-  space,
-  speed,
   groundMap,
   football,
   handleBoard,
+  athlete,
+  mainColor,
 }) {
-  const marqueeRef = useRef();
   const itemsRef = useRef([]);
 
   useFrame(() => {
@@ -47,12 +49,6 @@ function Content({
       mesh.position.set(-12, y, -z);
       i < football ? (mesh.visible = true) : (mesh.visible = false);
     }
-  });
-
-  useFrame((state) => {
-    let elapsed = state.clock.getElapsedTime();
-    marqueeRef.current.position.x =
-      5 - (elapsed % (marquee.length - (25 - space))) * speed;
   });
 
   return (
@@ -71,7 +67,7 @@ function Content({
       />
       <PerspectiveCamera makeDefault fov={50} position={[0, 5, 20]} />
 
-      <color args={[0.8, 0.8, 0.8]} attach="background" />
+      <color args={[0.1, 0.1, 0.1]} attach="background" />
 
       <Environment
         intensity={1}
@@ -121,8 +117,18 @@ function Content({
         rotation-x={-Math.PI * 0.5}
         map={groundMap}
       />
-      <Computer position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
-      <Shelves position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
+      <Computer
+        position={[0, 0, 0]}
+        scale={[4, 4, 4]}
+        wireframe={wireframe}
+        athlete={athlete}
+      />
+      <Shelves
+        position={[0, 0, 0]}
+        scale={[4, 4, 4]}
+        wireframe={wireframe}
+        mainColor={mainColor}
+      />
       <Door position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
       <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
       <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
@@ -133,35 +139,10 @@ function Content({
             scale={[4, 4, 4]}
             wireframe={wireframe}
             handleBoard={handleBoard}
+            athlete={athlete}
           />
         </mesh>
       ))}
-
-      <Center
-        ref={marqueeRef}
-        bottom
-        right
-        position={[5, 9.75, -5.532]}
-        scale={0.75}
-      >
-        <Text3D font="/fonts/Display.json" size={1} height={0}>
-          {marquee}
-          <MeshReflectorMaterial toneMapped={false} color={0x999999} />
-        </Text3D>
-      </Center>
-
-      <Center
-        middle
-        center
-        rotation-y={-Math.PI * 0.224}
-        position={[10.67, 4.55, -1.09]}
-        scale={[0.3, 0.35, 0.3]}
-      >
-        <Text3D font="/fonts/websiteFont.json" size={0.5} height={0}>
-          {website}
-          <MeshReflectorMaterial toneMapped={false} color={0x999999} />
-        </Text3D>
-      </Center>
 
       <Svg
         src="/logos/hello.svg"
@@ -174,7 +155,51 @@ function Content({
   );
 }
 
+function TextContent({ website, marquee, space, speed, mainColor }) {
+  const marqueeRef = useRef();
+
+  useFrame((state) => {
+    let elapsed = state.clock.getElapsedTime();
+    marqueeRef.current.position.x =
+      5 - (elapsed % (marquee.length - (25 - space))) * speed;
+  });
+
+  return (
+    <>
+      <Center
+        ref={marqueeRef}
+        bottom
+        right
+        position={[5, 9.75, -5.532]}
+        scale={0.75}
+      >
+        <Text3D font="/fonts/Display.json" size={1} height={0}>
+          {marquee}
+          <MeshReflectorMaterial color={mainColor} />
+        </Text3D>
+      </Center>
+
+      <Center
+        middle
+        center
+        rotation-y={-Math.PI * 0.224}
+        position={[10.67, 4.55, -1.09]}
+        scale={[0.3, 0.35, 0.3]}
+      >
+        <Text3D font="/fonts/websiteFont.json" size={0.5} height={0}>
+          {website}
+          <MeshReflectorMaterial color={0x999999} />
+        </Text3D>
+      </Center>
+    </>
+  );
+}
+
 export default function Home() {
+  const [mainColor, setMainColor] = useState("#86efac");
+  const [secondColor, setSecondColor] = useState("#3b82f6");
+  const [athletes, setAthletes] = useState(["Studio", "Sample2", "Random"]);
+  const [athlete, setAthlete] = useState("Studio");
   const [maps, setMaps] = useState([
     "Baltimore",
     "Cleaveland",
@@ -199,7 +224,7 @@ export default function Home() {
   const [imageMode, setImageMode] = useState(false);
   const [website, setWebsite] = useState("Athlete's Website");
   const [marquee, setMarquee] = useState(
-    "Hi! This Is The Content For Marquee."
+    "Hi! This is the content for marquee."
   );
   const [groundMap, setGroundMap] = useState();
 
@@ -208,11 +233,15 @@ export default function Home() {
   const handleBoard = () => {
     setBoard(true);
   };
+
+  const handleChangeComplete = (color) => {
+    setMainColor(color.hex);
+  };
   return (
-    <Suspense fallback={null}>
+    <>
       <Meta />
       <div
-        className={`duration-500 ring-offset-green-200 ring-green-200 hover:ring-4 hover:ring-offset-2 ring-opacity-50 justify-center grid-cols-5 rounded-3xl items-center fixed top-1/3 mx-auto left-0 right-0 w-1/3 bg-green-100/20 text-green-100 backdrop-blur-md z-50 h-auto p-4 gap-4 ${
+        className={`duration-500 ring-offset-green-200 ring-green-200 hover:ring-4 hover:ring-offset-2 ring-opacity-50 justify-center grid-cols-5 rounded-3xl items-center absolute top-1/3 mx-auto left-0 right-0 w-1/3 bg-green-100/20 text-green-100 backdrop-blur-md z-50 h-auto p-4 gap-4 ${
           board ? "grid" : "hidden"
         } `}
       >
@@ -254,17 +283,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="duration-500 fixed w-full z-10 h-screen p-2 lg:p-12">
-        <Image
-          className="ring-white hover:ring-8 hover:ring-offset-8 ring-opacity-50 duration-500 ring-offset-white w-full h-full rounded-3xl "
-          src="/2d.png"
-          width={1920}
-          height={1080}
-          alt="2d"
-        />
-      </div>
-      <div className="duration-500 h-screen bg-gradient-to-b from-green-300 to-blue-500 p-2 lg:p-12">
-        <div className="items-center space-y-2 duration-500 rounded-full z-40 m-10 fixed">
+      <div className="h-screen">
+        <div className="absolute top-0 items-center space-y-2 duration-500 z-40 m-10">
           <div className=" space-y-2 lg:flex items-center lg:space-x-6  duration-500 lg:space-y-0 ">
             <a
               href="https://www.athlete.studio/"
@@ -304,6 +324,73 @@ export default function Home() {
                 3D
               </div>
             </div>
+          </div>
+
+          <div className="w-full ">
+            <Collapsible
+              contentInnerClassName=" rounded-3xl h-auto px-2 py-4 overflow-y-scroll bg-green-200/10 backdrop-blur-sm space-y-0.5 w-full scrollbar-track-green-200/20 scrollbar-thumb-green-300/30 scrollbar-thin duration-500 scrollbar-thumb-rounded-md scrollbar-thumb-rounded-md"
+              contentOuterClassName=""
+              className=" w-full  duration-200"
+              openedClassName="w-full  duration-200"
+              transitionTime={200}
+              transitionCloseTime={300}
+              easing="ease-in-out"
+              overflowWhenOpen="visible"
+              trigger={
+                <div className="group font-semibold flex w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5 text-sm  text-green-200 duration-200  hover:text-green-200/80 lg:text-base">
+                  NAME: {athlete}
+                  <div
+                    className={`flex h-auto w-auto items-center duration-500`}
+                  >
+                    <svg
+                      className="h-4 w-4 fill-green-200 duration-200 group-hover:scale-110 group-hover:fill-green-200/800 lg:h-4 lg:w-4 "
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 10 5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M10,.69c0-.18-.07-.35-.2-.49-.27-.27-.71-.27-.98,0l-3.24,3.24c-.15,.15-.36,.24-.58,.24s-.42-.09-.58-.24L1.18,.2C.91-.07,.47-.07,.2,.2-.07,.47-.07,.91,.2,1.18l3.24,3.24c.42,.42,.97,.64,1.56,.64s1.14-.23,1.56-.64l3.24-3.24c.13-.14,.2-.31,.2-.49h0Z" />
+                    </svg>
+                  </div>
+                </div>
+              }
+              triggerWhenOpen={
+                <div className="group font-semibold flex my-2 w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5  text-sm  text-green-200 duration-200  hover:text-green-200 lg:py-2 lg:text-base">
+                  NAME: {athlete}
+                  <div
+                    className={`flex h-auto w-auto items-center duration-500`}
+                  >
+                    <svg
+                      className="h-4 w-4 rotate-180 fill-green-200 duration-200 group-hover:scale-110 group-hover:fill-green-200/800 lg:h-4 lg:w-4 "
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 10 5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M10,.69c0-.18-.07-.35-.2-.49-.27-.27-.71-.27-.98,0l-3.24,3.24c-.15,.15-.36,.24-.58,.24s-.42-.09-.58-.24L1.18,.2C.91-.07,.47-.07,.2,.2-.07,.47-.07,.91,.2,1.18l3.24,3.24c.42,.42,.97,.64,1.56,.64s1.14-.23,1.56-.64l3.24-3.24c.13-.14,.2-.31,.2-.49h0Z" />
+                    </svg>
+                  </div>
+                </div>
+              }
+            >
+              {athletes.map((a, i) => (
+                <div
+                  key={i}
+                  onMouseEnter={() => setAthlete(a)}
+                  className={`ml-2  flex cursor-pointer items-center justify-between space-x-4  py-1.5 pl-2 pr-6 duration-100 dark:border-black  ${
+                    athlete === a
+                      ? "border-l-4  bg-green-300/20 hover:border-green-400 hover:bg-green-300/30 text-green-300/80 hover:text-green-100 border-green-300/60"
+                      : "border-l hover:border-green-400 hover:bg-green-200/10 text-green-200/80 hover:text-green-300/80 border-green-200/40"
+                  }`}
+                >
+                  {a}
+                </div>
+              ))}
+            </Collapsible>
+          </div>
+          <div className="flex w-full  space-x-2">
+            <PopoverPicker color={mainColor} onChange={setMainColor} />
+            <PopoverPicker color={secondColor} onChange={setSecondColor} />
           </div>
 
           <div className="group flex w-full items-center rounded-xl bg-green-200/10 ring-green-200/30 backdrop-blur-sm px-2 duration-500 hover:bg-green-200/5 lg:rounded-full  lg:px-2">
@@ -373,9 +460,10 @@ export default function Home() {
               className="w-full cursor-pointer bg-green-200/90  group-hover:bg-green-300 group-hover:accent-green-100 accent-green-300 h-0.5 appearance-none rounded-full font-semibold  my-3 outline-none duration-500 "
             />
           </div>
-          <div className="w-full ">
+
+          <div className="w-full  ">
             <Collapsible
-              contentInnerClassName=" rounded-3xl h-72 px-2 py-4 overflow-y-scroll bg-green-200/10 backdrop-blur-sm space-y-0.5 w-full scrollbar-track-green-200/20 scrollbar-thumb-green-300/30 scrollbar-thin duration-500 scrollbar-thumb-rounded-md scrollbar-thumb-rounded-md"
+              contentInnerClassName=" rounded-3xl h-auto max-h-72 px-2 py-4 overflow-y-scroll bg-green-200/10 backdrop-blur-sm space-y-0.5 w-full scrollbar-track-green-200/20 scrollbar-thumb-green-300/30 scrollbar-thin duration-500 scrollbar-thumb-rounded-md scrollbar-thumb-rounded-md"
               contentOuterClassName=""
               className=" w-full  duration-200"
               openedClassName="w-full  duration-200"
@@ -385,7 +473,7 @@ export default function Home() {
               overflowWhenOpen="visible"
               trigger={
                 <div className="group font-semibold flex w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5 text-sm  text-green-200 duration-200  hover:text-green-200/80 lg:text-base">
-                  {map}
+                  CITY: {map}
                   <div
                     className={`flex h-auto w-auto items-center duration-500`}
                   >
@@ -403,7 +491,7 @@ export default function Home() {
               }
               triggerWhenOpen={
                 <div className="group font-semibold flex my-2 w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5  text-sm  text-green-200 duration-200  hover:text-green-200 lg:py-2 lg:text-base">
-                  {map}
+                  CITY: {map}
                   <div
                     className={`flex h-auto w-auto items-center duration-500`}
                   >
@@ -473,29 +561,45 @@ export default function Home() {
             dev_freecam: {free.toString()}
           </div>
         </div>
-        <Canvas
-          shadows={true}
-          className={` z-30 w-full h-full bg-transparent ring-opacity-50 hover:ring-8 hover:ring-offset-8 duration-500 ring-white ring-offset-white rounded-3xl ${
-            imageMode && "hidden"
-          }`}
-          camera={{
-            position: [-6, 7, 7],
-          }}
-        >
-          <Content
-            website={website}
-            map={map}
-            marquee={marquee}
-            space={space}
-            speed={speed}
-            wireframe={wireframe}
-            free={free}
-            groundMap={groundMap}
-            football={football}
-            handleBoard={handleBoard}
-          />
-        </Canvas>
+
+        <Image
+          className="absolute top-0 duration-500 w-full z-10 h-full"
+          src="/2d.png"
+          width={1920}
+          height={1080}
+          alt="2d"
+        />
+        <Suspense fallback={null}>
+          <Canvas
+            shadows={true}
+            className={`absolute top-0 z-30 w-full h-full duration-500 ${
+              imageMode && "hidden"
+            }`}
+            camera={{
+              position: [-6, 7, 7],
+            }}
+          >
+            <Content
+              map={map}
+              wireframe={wireframe}
+              free={free}
+              groundMap={groundMap}
+              football={football}
+              handleBoard={handleBoard}
+              athlete={athlete}
+              mainColor={mainColor}
+            />
+
+            <TextContent
+              website={website}
+              marquee={marquee}
+              space={space}
+              speed={speed}
+              mainColor={mainColor}
+            />
+          </Canvas>
+        </Suspense>
       </div>
-    </Suspense>
+    </>
   );
 }

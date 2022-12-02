@@ -5,15 +5,15 @@ import { useEffect } from "react";
 import { LinearEncoding, RepeatWrapping, TextureLoader } from "three";
 
 export function Football(props) {
-  const [diff, roughness, normal, image] = useLoader(TextureLoader, [
+  const [diff, roughness, normal, logo_alpha] = useLoader(TextureLoader, [
     "textures/football/football_diffuse.jpg",
     "textures/football/football_rough.jpg",
     "textures/football/football_normal.jpg",
-    "/logotest.png",
+    `/athletes/${props.athlete}/logo_alpha.jpg`,
   ]);
 
   useEffect(() => {
-    [diff, roughness, normal, image].forEach((t) => {
+    [diff, roughness, normal].forEach((t) => {
       t.wrapS = RepeatWrapping;
       t.wrapT = RepeatWrapping;
       t.repeat.set(1, -1);
@@ -22,7 +22,13 @@ export function Football(props) {
     diff.encoding = LinearEncoding;
     roughness.encoding = LinearEncoding;
     normal.encoding = LinearEncoding;
-  }, [diff, roughness, normal, image]);
+  }, [diff, roughness, normal]);
+
+  useEffect(() => {
+    logo_alpha.wrapS = RepeatWrapping;
+    logo_alpha.wrapT = RepeatWrapping;
+    logo_alpha.repeat.set(-1, 1);
+  }, [logo_alpha]);
 
   const { nodes } = useGLTF("models/items/Football.glb");
   const [hover, setHover] = useState(false);
@@ -72,7 +78,7 @@ export function Football(props) {
       >
         <MeshReflectorMaterial
           envMapIntensity={0.2}
-          alphaMap={image}
+          alphaMap={logo_alpha}
           color={0xffffff}
           roughness={0.25}
           metalness={1}

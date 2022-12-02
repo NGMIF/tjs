@@ -143,7 +143,7 @@ export function Shelves(props) {
           clearcoat={0.18}
           reflectivity={0.18}
           ior={1.55}
-          color={0xffffff}
+          color={props.mainColor}
           wireframe={props.wireframe}
         />
       </mesh>
