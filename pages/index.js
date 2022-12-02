@@ -1,5 +1,4 @@
-import { Suspense, useState, useRef, useCallback } from "react";
-import useClickOutside from "../components/useClickOutside";
+import { Suspense, useState, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import Collapsible from "react-collapsible";
 import Image from "next/image";
@@ -236,16 +235,6 @@ export default function Home() {
     setBoard(true);
   };
 
-  const nameRef = useRef();
-  const [openName, setOpenName] = useState(false);
-  const closeName = useCallback(() => setOpenName(false), []);
-  useClickOutside(nameRef, closeName);
-
-  const cityRef = useRef();
-  const [openCity, setOpenCity] = useState(false);
-  const closeCity = useCallback(() => setOpenCity(false), []);
-  useClickOutside(cityRef, closeCity);
-
   return (
     <>
       <Meta />
@@ -335,7 +324,7 @@ export default function Home() {
             </div>
           </div>
           <div className={`space-y-1.5 duration-500 ${imageMode && "hidden"} `}>
-            <div ref={nameRef} className="w-full ">
+            <div className="w-full ">
               <Collapsible
                 contentInnerClassName=" rounded-3xl h-auto px-2 py-4 overflow-y-scroll bg-green-200/10 backdrop-blur-sm space-y-0.5 w-full scrollbar-track-green-200/20 scrollbar-thumb-green-300/30 scrollbar-thin duration-500 scrollbar-thumb-rounded-md scrollbar-thumb-rounded-md"
                 contentOuterClassName=""
@@ -345,14 +334,8 @@ export default function Home() {
                 transitionCloseTime={300}
                 easing="ease-in-out"
                 overflowWhenOpen="visible"
-                open={openName}
                 trigger={
-                  <div
-                    onClick={() => {
-                      setOpenName(true);
-                    }}
-                    className="group font-semibold flex w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5 text-sm  text-green-200 duration-200  hover:text-green-200/80 lg:text-base"
-                  >
+                  <div className="group font-semibold flex w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5 text-sm  text-green-200 duration-200  hover:text-green-200/80 lg:text-base">
                     NAME: {athlete}
                     <div
                       className={`flex h-auto w-auto items-center duration-500`}
@@ -370,12 +353,7 @@ export default function Home() {
                   </div>
                 }
                 triggerWhenOpen={
-                  <div
-                    onClick={() => {
-                      setOpenName(false);
-                    }}
-                    className="group font-semibold flex my-2 w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5  text-sm  text-green-200 duration-200  hover:text-green-200 lg:py-2 lg:text-base"
-                  >
+                  <div className="group font-semibold flex my-2 w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5  text-sm  text-green-200 duration-200  hover:text-green-200 lg:py-2 lg:text-base">
                     NAME: {athlete}
                     <div
                       className={`flex h-auto w-auto items-center duration-500`}
@@ -480,7 +458,7 @@ export default function Home() {
               />
             </div>
 
-            <div ref={cityRef} className="w-full">
+            <div className="w-full">
               <Collapsible
                 contentInnerClassName=" rounded-3xl h-auto max-h-72 px-2 py-4 overflow-y-scroll bg-green-200/10 backdrop-blur-sm space-y-0.5 w-full scrollbar-track-green-200/20 scrollbar-thumb-green-300/30 scrollbar-thin duration-500 scrollbar-thumb-rounded-md scrollbar-thumb-rounded-md"
                 contentOuterClassName=""
@@ -490,14 +468,8 @@ export default function Home() {
                 transitionCloseTime={300}
                 easing="ease-in-out"
                 overflowWhenOpen="visible"
-                open={openCity}
                 trigger={
-                  <div
-                    onClick={() => {
-                      setOpenCity(true);
-                    }}
-                    className="group font-semibold flex w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5 text-sm  text-green-200 duration-200  hover:text-green-200/80 lg:text-base"
-                  >
+                  <div className="group font-semibold flex w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5 text-sm  text-green-200 duration-200  hover:text-green-200/80 lg:text-base">
                     CITY: {map}
                     <div
                       className={`flex h-auto w-auto items-center duration-500`}
@@ -515,12 +487,7 @@ export default function Home() {
                   </div>
                 }
                 triggerWhenOpen={
-                  <div
-                    onClick={() => {
-                      setOpenCity(false);
-                    }}
-                    className="group font-semibold flex my-2 w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5  text-sm  text-green-200 duration-200  hover:text-green-200 lg:py-2 lg:text-base"
-                  >
+                  <div className="group font-semibold flex my-2 w-full backdrop-blur-sm justify-between rounded-full bg-green-200/10 hover:bg-green-200/5 px-4 py-2.5  text-sm  text-green-200 duration-200  hover:text-green-200 lg:py-2 lg:text-base">
                     CITY: {map}
                     <div
                       className={`flex h-auto w-auto items-center duration-500`}
@@ -600,37 +567,36 @@ export default function Home() {
           height={1080}
           alt="2d"
         />
-        <Suspense fallback={null}>
-          <Canvas
-            shadows={true}
-            className={`absolute top-0 z-30 w-full h-full duration-500 ${
-              imageMode && "hidden"
-            }`}
-            camera={{
-              position: [-6, 7, 7],
-            }}
-          >
-            <Content
-              map={map}
-              wireframe={wireframe}
-              free={free}
-              groundMap={groundMap}
-              football={football}
-              handleBoard={handleBoard}
-              athlete={athlete}
-              mainColor={mainColor}
-              secondColor={secondColor}
-            />
 
-            <TextContent
-              website={website}
-              marquee={marquee}
-              space={space}
-              speed={speed}
-              mainColor={mainColor}
-            />
-          </Canvas>
-        </Suspense>
+        <Canvas
+          shadows={true}
+          className={`absolute top-0 z-30 w-full h-full duration-500 ${
+            imageMode && "hidden"
+          }`}
+          camera={{
+            position: [-6, 7, 7],
+          }}
+        >
+          <Content
+            map={map}
+            wireframe={wireframe}
+            free={free}
+            groundMap={groundMap}
+            football={football}
+            handleBoard={handleBoard}
+            athlete={athlete}
+            mainColor={mainColor}
+            secondColor={secondColor}
+          />
+
+          <TextContent
+            website={website}
+            marquee={marquee}
+            space={space}
+            speed={speed}
+            mainColor={mainColor}
+          />
+        </Canvas>
       </div>
     </>
   );
