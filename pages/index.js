@@ -567,36 +567,37 @@ export default function Home() {
           height={1080}
           alt="2d"
         />
+        <Suspense fallback={null}>
+          <Canvas
+            shadows={true}
+            className={`absolute top-0 z-30 w-full h-full duration-500 ${
+              imageMode && "hidden"
+            }`}
+            camera={{
+              position: [-6, 7, 7],
+            }}
+          >
+            <Content
+              map={map}
+              wireframe={wireframe}
+              free={free}
+              groundMap={groundMap}
+              football={football}
+              handleBoard={handleBoard}
+              athlete={athlete}
+              mainColor={mainColor}
+              secondColor={secondColor}
+            />
 
-        <Canvas
-          shadows={true}
-          className={`absolute top-0 z-30 w-full h-full duration-500 ${
-            imageMode && "hidden"
-          }`}
-          camera={{
-            position: [-6, 7, 7],
-          }}
-        >
-          <Content
-            map={map}
-            wireframe={wireframe}
-            free={free}
-            groundMap={groundMap}
-            football={football}
-            handleBoard={handleBoard}
-            athlete={athlete}
-            mainColor={mainColor}
-            secondColor={secondColor}
-          />
-
-          <TextContent
-            website={website}
-            marquee={marquee}
-            space={space}
-            speed={speed}
-            mainColor={mainColor}
-          />
-        </Canvas>
+            <TextContent
+              website={website}
+              marquee={marquee}
+              space={space}
+              speed={speed}
+              mainColor={mainColor}
+            />
+          </Canvas>
+        </Suspense>
       </div>
     </>
   );
