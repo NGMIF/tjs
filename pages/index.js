@@ -1,5 +1,4 @@
 import { Suspense, useState } from "react";
-import { useRouter } from "next/router";
 import Image from "next/image";
 import Collapsible from "react-collapsible";
 import { PopoverPicker } from "../components/PopoverPicker";
@@ -15,10 +14,6 @@ import TextContent from "../components/textContent";
 export default function Home({ alldayMcData }) {
   const sortedAlldayMcData = alldayMcData;
   sortedAlldayMcData.sort((a, b) => b.market_cap - a.market_cap);
-
-  const router = useRouter();
-
-  console.log(router.asPath);
 
   const liveMarquee = Array.from(
     sortedAlldayMcData.slice(0, 10),
@@ -65,7 +60,7 @@ export default function Home({ alldayMcData }) {
   const [speed, setSpeed] = useState(2);
   const [map, setMap] = useState("NYC");
   const [imageMode, setImageMode] = useState(false);
-  const [website, setWebsite] = useState("NFLAdfdf.COM");
+  const [website, setWebsite] = useState("NFLALLDAY.COM");
   const [marquee, setMarquee] = useState(liveMarquee);
   const [groundMap, setGroundMap] = useState();
 

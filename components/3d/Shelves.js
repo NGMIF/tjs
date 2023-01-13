@@ -94,8 +94,29 @@ export function Shelves(props) {
             {props.sortedAlldayMcData.map((athleteData, index) => (
               <div
                 key={index}
-                className="group bg-green-300/10 pl-1 pr-2 py-1 rounded-full grid items-center hover:bg-green-200/20 grid-cols-12 duration-300"
+                className="group relative bg-green-300/10 pl-1 pr-2 py-1 rounded-full grid items-center hover:bg-green-200/20 grid-cols-12 duration-300"
               >
+                <div
+                  className={`z-20 w-28 p-0.5 overflow-hidden h-28 bg-green-200/20 shadow-md shadow-black rounded-lg right-20 hidden group-hover:flex absolute ${
+                    index < 5 ? "top-0 " : "bottom-0 "
+                  } `}
+                >
+                  <video
+                    controlslist="nodownload"
+                    autoplay=""
+                    loop=""
+                    playsinline=""
+                    className=" overflow-hidden rounded-md"
+                  >
+                    <source
+                      src="https://assets.nflallday.com/editions/draw_it_up/c1182978-cae8-4b47-a2e5-2af791b429a8/play_c1182978-cae8-4b47-a2e5-2af791b429a8_draw_it_up_capture_AnimationCapture_Video_Square_Grey_1080_1080_Grey.mp4"
+                      type="video/mp4"
+                    />
+                    <p>
+                      Your browser doesn’t support mp4 or webm html5 videos.
+                    </p>
+                  </video>
+                </div>
                 <div className=" border-green-100 group-hover:bg-green-300/40 duration-300 bg-green-100/20 group-hover:border-1  w-6 h-6 text-sm flex items-center justify-center rounded-full text-center font-semibold col-span-1">
                   {index + 1}
                 </div>
