@@ -77,10 +77,10 @@ export function Football(props) {
         map-anisotropy={16}
       >
         <MeshReflectorMaterial
-          envMapIntensity={0.2}
+          envMapIntensity={0.4}
           alphaMap={logo_alpha}
           color={0xffffff}
-          roughness={0.25}
+          roughness={0.1}
           metalness={1}
           blur={[200, 200]}
           mixBlur={30}

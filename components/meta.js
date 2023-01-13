@@ -14,9 +14,9 @@ function Meta({ title, keywords, description }) {
 }
 
 Meta.defaultProps = {
-  title: "Athlete Storefront Demo",
-  keywords: "Demo",
-  description: "A Demo site for athlete studio storefront",
+  title: "Athlete Studio NFL Allday Community",
+  keywords: "NFT Athlete NFL Allday Community",
+  description: "Community Dashboard for Athlete Studio NFLAllday",
 };
 
 export default Meta;

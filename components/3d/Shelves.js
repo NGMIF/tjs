@@ -4,6 +4,7 @@ import {
   MeshReflectorMaterial,
   MeshRefractionMaterial,
   CubeCamera,
+  Html,
 } from "@react-three/drei";
 import { useLoader } from "@react-three/fiber";
 
@@ -51,6 +52,92 @@ export function Shelves(props) {
           wireframe={props.wireframe}
         />
       </mesh>
+
+      <mesh geometry={nodes.Leaderboard_Common_Screen_BG.geometry}>
+        <MeshReflectorMaterial
+          map={diff}
+          color={0xbbbbbb}
+          envMapIntensity={0}
+          dithering={true}
+          roughness={1}
+          metalness={0}
+          blur={[100, 100]}
+          mixBlur={10}
+          mixStrength={1}
+          mixContrast={1}
+          resolution={1024}
+          mirror={0}
+          depthScale={0.01}
+          minDepthThreshold={0.9}
+          maxDepthThreshold={1}
+          depthToBlurRatioBias={0.25}
+          debug={0}
+          reflectorOffset={0.2}
+          wireframe={props.wireframe}
+        />
+      </mesh>
+
+      <Html
+        rotation-y={Math.PI * 0.22222}
+        position={[-2.365, 1.365, -0.525]}
+        scale={[0.255, 0.23, 1]}
+        className="w-96 h-96 select-none bg-repeat bg-opacity-20 bg-[length:100px_100px] bg-[url('/textures/screenbg_dark.png')] overflow-x-hidden overflow-y-hidden scrollbar-thin scrollbar-track-green-200/20 scrollbar-thumb-green-300/30 duration-500 scrollbar-thumb-rounded-md scrollbar-thumb-rounded-md"
+        transform
+        occlude="blending"
+        prepend
+      >
+        <div className="pt-1 w-96 h-96 text-neutral-100 space-y-2 ">
+          <div className="flex text-2xl font-bold tracking-tight uppercase justify-center ">
+            Top NFL Allday MarketCap
+          </div>
+          <div className="flex px-1.5 py-0 flex-col font-bold space-y-0.5 w-auto h-auto ">
+            {props.sortedAlldayMcData.map((athleteData, index) => (
+              <div
+                key={index}
+                className="group bg-green-300/10 pl-1 pr-2 py-1 rounded-full grid items-center hover:bg-green-200/20 grid-cols-12 duration-300"
+              >
+                <div className=" border-green-100 group-hover:bg-green-300/40 duration-300 bg-green-100/20 group-hover:border-1  w-6 h-6 text-sm flex items-center justify-center rounded-full text-center font-semibold col-span-1">
+                  {index + 1}
+                </div>
+                <div className=" text-neutral-200 group-hover:text-neutral-50 ml-0 col-span-8">
+                  {athleteData.name}
+                </div>
+                <div className=" text-neutral-200 group-hover:text-green-200 tracking-normal group-hover:tracking-wider leading-none group-hover:-translate-x-1 font-mono duration-300 text-end col-span-3">
+                  {athleteData.market_cap}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Html>
+
+      <mesh
+        castShadow={true}
+        receiveShadow={true}
+        geometry={nodes.Leaderboard_Common.geometry}
+      >
+        <MeshReflectorMaterial
+          color={0x272727}
+          envMapIntensity={0.15}
+          dithering={true}
+          roughness={0.9}
+          metalness={0}
+          blur={[100, 100]}
+          mixBlur={20}
+          mixStrength={30}
+          mixContrast={1}
+          resolution={1024}
+          mirror={0}
+          depthScale={0.01}
+          minDepthThreshold={0.9}
+          maxDepthThreshold={1}
+          depthToBlurRatioBias={0.25}
+          debug={0}
+          reflectorOffset={0.2}
+          wireframe={props.wireframe}
+        />
+      </mesh>
+
       <mesh
         castShadow={true}
         receiveShadow={true}
@@ -78,6 +165,7 @@ export function Shelves(props) {
           wireframe={props.wireframe}
         />
       </mesh>
+
       <mesh
         castShadow={true}
         receiveShadow={true}
@@ -104,6 +192,7 @@ export function Shelves(props) {
           wireframe={props.wireframe}
         />
       </mesh>
+
       <mesh
         castShadow={true}
         receiveShadow={true}

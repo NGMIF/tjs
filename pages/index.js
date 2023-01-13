@@ -1,206 +1,48 @@
-import { Suspense, useState, useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import Collapsible from "react-collapsible";
+import { Suspense, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
-import {
-  Environment,
-  OrbitControls,
-  PerspectiveCamera,
-  Svg,
-  MeshReflectorMaterial,
-  Text3D,
-  Center,
-} from "@react-three/drei";
-
+import Collapsible from "react-collapsible";
 import { PopoverPicker } from "../components/PopoverPicker";
 
+import { Canvas } from "@react-three/fiber";
+
 import Meta from "../components/meta";
+import Loader from "../components/loader";
+import EnvContent from "../components/envContent";
+import Content from "../components/content";
+import TextContent from "../components/textContent";
 
-import { Ground } from "../components/3d/Ground";
-import { Wall } from "../components/3d/Wall";
-import { Door } from "../components/3d/Door";
-import { Ceiling } from "../components/3d/Ceiling";
-import { CeilingLight } from "../components/3d/CeilingLight";
-import { Shelves } from "../components/3d/Shelves";
-import { Computer } from "../components/3d/Computer";
-import { Map } from "../components/3d/Map";
+export default function Home({ alldayMcData }) {
+  const sortedAlldayMcData = alldayMcData;
+  sortedAlldayMcData.sort((a, b) => b.market_cap - a.market_cap);
 
-import { Football } from "../components/3d/Football";
+  const router = useRouter();
 
-function Content({
-  wireframe,
-  free,
-  map,
-  groundMap,
-  football,
-  handleBoard,
-  athlete,
-  mainColor,
-  secondColor,
-}) {
-  const itemsRef = useRef([]);
+  console.log(router.asPath);
 
-  useFrame(() => {
-    for (let i = 0; i < itemsRef.current.length; i++) {
-      let mesh = itemsRef.current[i];
-      let y = 5.4 - parseInt(i / 5) * 1.42;
-      let z = (i % 5) * 1.5 - 10.5;
-      mesh.position.set(-12, y, -z);
-      i < football ? (mesh.visible = true) : (mesh.visible = false);
-    }
-  });
+  const liveMarquee = Array.from(
+    sortedAlldayMcData.slice(0, 10),
+    (datas) => datas.name
+  ).join("  ");
 
-  return (
-    <>
-      <OrbitControls
-        enablePan={free}
-        enableZoom={true}
-        target={[0, 5, 0]}
-        minPolarAngle={!free ? "1.2" : "0.5"}
-        maxPolarAngle={!free ? "1.55" : "2"}
-        minAzimuthAngle={!free ? "-0.35" : "-2"}
-        maxAzimuthAngle={!free ? "0.35" : "2"}
-        minDistance={!free ? "12" : "0"}
-        maxDistance={!free ? "22" : "100"}
-        rotateSpeed={0.15}
-      />
-      <PerspectiveCamera makeDefault fov={50} position={[0, 5, 20]} />
+  console.log(liveMarquee);
 
-      <color args={[0.1, 0.1, 0.1]} attach="background" />
+  /*  const sortedAlldayMcData = alldayMcData;
+  sortedAlldayMcData.sort(
+    (a, b) =>
+      b.stats.dapper.nfl_all_day.market_cap -
+      a.stats.dapper.nfl_all_day.market_cap
+  ); */
 
-      <Environment
-        intensity={1}
-        background={true}
-        blur={0}
-        ground={true}
-        files="hdri/studio.hdr"
-        path="/"
-      />
-
-      <ambientLight color={0xffffff} intensity={0.1} />
-      <spotLight
-        color={[1, 1, 1]}
-        intensity={0.2}
-        angle={1}
-        penumbra={1}
-        position={[10, 15, 10]}
-        castShadow
-        shadow-bias={-0.0001}
-      />
-      <spotLight
-        color={[1, 1, 1]}
-        intensity={0.2}
-        angle={1}
-        penumbra={1}
-        position={[-10, 15, 10]}
-        castShadow
-        shadow-bias={-0.0001}
-      />
-      <directionalLight
-        castShadow={true}
-        intensity={0.3}
-        position={[5, 5, -5]}
-        color="white"
-      />
-      <directionalLight
-        castShadow={true}
-        intensity={0.2}
-        position={[-10, 10, -5]}
-        color="white"
-      />
-
-      <CeilingLight position={[0, 13.65, 0]} rotation-x={-Math.PI * -0.5} />
-      <Ceiling position={[0, 13.7, 0]} rotation-x={-Math.PI * -0.5} />
-      <Ground
-        position={[0, 0, 0]}
-        rotation-x={-Math.PI * 0.5}
-        map={groundMap}
-      />
-      <Computer
-        position={[0, 0, 0]}
-        scale={[4, 4, 4]}
-        wireframe={wireframe}
-        athlete={athlete}
-      />
-      <Shelves
-        position={[0, 0, 0]}
-        scale={[4, 4, 4]}
-        wireframe={wireframe}
-        secondColor={secondColor}
-      />
-      <Door position={[0, 0, 0]} scale={[4, 4, 4]} wireframe={wireframe} />
-      <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
-      <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
-
-      {Array.from(Array(15).keys()).map((v, i) => (
-        <mesh key={i} ref={(el) => (itemsRef.current[i] = el)}>
-          <Football
-            scale={[4, 4, 4]}
-            wireframe={wireframe}
-            handleBoard={handleBoard}
-            athlete={athlete}
-          />
-        </mesh>
-      ))}
-
-      <Svg
-        src="/logos/hello.svg"
-        skipFill={true}
-        skipStrokes={false}
-        scale={3.7}
-        fillMaterial={{ color: `${mainColor}` }}
-        strokeMaterial={{ color: `${mainColor}` }}
-        position={[-3.7, 7.5, -5.5]}
-      ></Svg>
-    </>
-  );
-}
-
-function TextContent({ website, marquee, space, speed, mainColor }) {
-  const marqueeRef = useRef();
-
-  useFrame((state) => {
-    let elapsed = state.clock.getElapsedTime();
-    marqueeRef.current.position.x =
-      5 - (elapsed % (marquee.length - (25 - space))) * speed;
-  });
-
-  return (
-    <>
-      <Center
-        ref={marqueeRef}
-        bottom
-        right
-        position={[5, 9.75, -5.532]}
-        scale={0.75}
-      >
-        <Text3D font="/fonts/Display.json" size={1} height={0}>
-          {marquee}
-          <MeshReflectorMaterial color={mainColor} />
-        </Text3D>
-      </Center>
-
-      <Center
-        middle
-        center
-        rotation-y={-Math.PI * 0.224}
-        position={[10.67, 4.55, -1.09]}
-        scale={[0.3, 0.35, 0.3]}
-      >
-        <Text3D font="/fonts/websiteFont.json" size={0.5} height={0}>
-          {website}
-          <MeshReflectorMaterial color={0x999999} />
-        </Text3D>
-      </Center>
-    </>
-  );
-}
-
-export default function Home() {
-  const [mainColor, setMainColor] = useState("#86efac");
-  const [secondColor, setSecondColor] = useState("#3b82f6");
-  const [athletes, setAthletes] = useState(["Studio", "Sample2", "Random"]);
-  const [athlete, setAthlete] = useState("Studio");
+  const [mainColor, setMainColor] = useState("#ffffff");
+  const [secondColor, setSecondColor] = useState("#ffffff");
+  const [athletes, setAthletes] = useState([
+    "Allday",
+    "Studio",
+    "Sample2",
+    "Random",
+  ]);
+  const [athlete, setAthlete] = useState("Allday");
   const [maps, setMaps] = useState([
     "Baltimore",
     "Cleaveland",
@@ -223,34 +65,44 @@ export default function Home() {
   const [speed, setSpeed] = useState(2);
   const [map, setMap] = useState("NYC");
   const [imageMode, setImageMode] = useState(false);
-  const [website, setWebsite] = useState("Athlete's Website");
-  const [marquee, setMarquee] = useState(
-    "Hi! This is the content for marquee."
-  );
+  const [website, setWebsite] = useState("NFLAdfdf.COM");
+  const [marquee, setMarquee] = useState(liveMarquee);
   const [groundMap, setGroundMap] = useState();
 
   const [football, setFootball] = useState(5);
+  const [cap, setCap] = useState(10);
   const [board, setBoard] = useState(false);
+  const [boardContent, setBoardContent] = useState({
+    boardContentUrl: "/videos/football.mp4",
+    boardContentTitle: "NFLALLDAY Football Edition",
+  });
+
   const handleBoard = () => {
     setBoard(true);
   };
 
+  const handleBoardContent = (boardContent) => {
+    setBoardContent(boardContent);
+  };
+
   return (
-    <>
+    <div className=" bg-black">
       <Meta />
+
+      {/* Board */}
       <div
         className={`duration-500 ring-offset-green-200 ring-green-200 hover:ring-4 hover:ring-offset-2 ring-opacity-50 justify-center grid-cols-5 rounded-3xl items-center absolute top-1/3 mx-auto left-0 right-0 w-1/2 bg-green-100/20 text-green-100 backdrop-blur-md z-50 h-auto p-4 gap-4 ${
           board ? "grid" : "hidden"
         } `}
       >
         <video className="w-full col-span-2 rounded-2xl" autoPlay controls>
-          <source src="/videos/football.mp4" type="video/mp4" />
+          <source src={boardContent.boardContentUrl} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="col-span-3 h-full justify-between flex space-y-2 flex-col">
           <div className="flex items-center space-x-2 w-full h-12 rounded-2xl ">
             <div className="px-4 py-2 w-full flex text-lg font-bold items-center bg-green-50/10 h-12  rounded-xl">
-              Athlete Studio Common Pack
+              {boardContent.boardContentTitle}
             </div>
 
             <div
@@ -281,7 +133,9 @@ export default function Home() {
           </div>
         </div>
       </div>
+
       <div className="h-screen">
+        {/* Control Panel */}
         <div className="absolute top-0 items-center space-y-3 duration-500 z-40 m-10">
           <div className=" space-y-2 lg:flex items-center lg:space-x-2  duration-500 lg:space-y-0 ">
             <a
@@ -545,6 +399,20 @@ export default function Home() {
                 className="w-full cursor-pointer bg-green-200/90 group-hover:bg-green-300 group-hover:accent-green-100 accent-green-300 h-0.5 appearance-none rounded-full font-semibold  my-3 outline-none duration-500 "
               />
             </div>
+            <div className="group flex w-full items-center rounded-xl bg-neutral-200/10 ring-neutral-200/30 backdrop-blur-sm px-2 duration-500 hover:bg-neutral-200/5 lg:rounded-full  lg:px-4">
+              <div className="flex text-neutral-200/90  group-hover:text-neutral-200  font-semibold h-auto w-auto mr-2 flex-shrink-0 items-center justify-center">
+                Cap: {15 - football}
+              </div>
+              <input
+                disabled
+                type="range"
+                onChange={(e) => setCap(e.target.value)}
+                value={cap}
+                min="1"
+                max="15"
+                className="w-full cursor-pointer bg-neutral-200/90 group-hover:bg-neutral-300 group-hover:accent-neutral-100 accent-neutral-300 h-0.5 appearance-none rounded-full font-semibold  my-3 outline-none duration-500 "
+              />
+            </div>
             <div
               onClick={() => setWireframe((prev) => !prev)}
               className="group cursor-pointer flex w-auto items-center rounded-xl bg-yellow-200/10  backdrop-blur-sm text-lg  text-yellow-500 hover:text-yellow-300 font-bold px-2 duration-500 hover:bg-yellow-200/5 lg:rounded-full  lg:px-4 lg:py-0.5"
@@ -560,35 +428,42 @@ export default function Home() {
           </div>
         </div>
 
+        {/* 2D Version */}
+
         <Image
-          className="absolute top-0 duration-500 w-full z-10 h-full"
+          className="absolute top-0 duration-500 w-screen z-10 "
           src="/2d.png"
           width={1920}
           height={1080}
           alt="2d"
         />
-        <Suspense fallback={null}>
-          <Canvas
-            shadows={true}
-            className={`absolute top-0 z-30 w-full h-full duration-500 ${
-              imageMode && "hidden"
-            }`}
-            camera={{
-              position: [-6, 7, 7],
-            }}
-          >
+
+        {/* 3D Canvas */}
+        <Canvas
+          shadows={true}
+          className={`absolute top-0 z-30 w-full h-full duration-500 ${
+            imageMode && "hidden"
+          }`}
+          camera={{
+            position: [-6, 7, 7],
+          }}
+        >
+          <Suspense fallback={<Loader />}>
+            <EnvContent free={free} />
             <Content
               map={map}
               wireframe={wireframe}
-              free={free}
               groundMap={groundMap}
               football={football}
+              cap={15 - football}
               handleBoard={handleBoard}
+              handleBoardContent={handleBoardContent}
               athlete={athlete}
               mainColor={mainColor}
               secondColor={secondColor}
+              sortedAlldayMcData={sortedAlldayMcData}
             />
-
+            moment holder
             <TextContent
               website={website}
               marquee={marquee}
@@ -596,9 +471,24 @@ export default function Home() {
               speed={speed}
               mainColor={mainColor}
             />
-          </Canvas>
-        </Suspense>
+          </Suspense>
+        </Canvas>
       </div>
-    </>
+    </div>
   );
 }
+
+export const getServerSideProps = async () => {
+  /* https://api.athlete.studio/staging/v1/dashboard */
+  /* https://api.athlete.studio/production/v1/athletes/ */
+  const alldayMcRes = await fetch(
+    " https://api.athlete.studio/staging/v1/dashboard "
+  );
+  const alldayMcData = await alldayMcRes.json();
+
+  return {
+    props: {
+      alldayMcData,
+    },
+  };
+};
