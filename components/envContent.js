@@ -7,7 +7,7 @@ import {
 export default function EnvContent({ free }) {
   return (
     <>
-      <OrbitControls
+      {/* <OrbitControls
         enablePan={free}
         enableZoom={true}
         target={[0, 5, 0]}
@@ -18,7 +18,22 @@ export default function EnvContent({ free }) {
         minDistance={!free ? "12" : "0"}
         maxDistance={!free ? "22" : "100"}
         rotateSpeed={0.15}
+      /> */}
+
+      <OrbitControls
+        enablePan={false}
+        enableZoom={false}
+        enableRotate={false}
+        target={[0, 5, 0]}
+        minPolarAngle={!free ? "1.2" : "0.5"}
+        maxPolarAngle={!free ? "1.55" : "2"}
+        minAzimuthAngle={!free ? "-0.35" : "-2"}
+        maxAzimuthAngle={!free ? "0.35" : "2"}
+        minDistance={!free ? "12" : "0"}
+        maxDistance={!free ? "22" : "100"}
+        rotateSpeed={0.15}
       />
+
       <PerspectiveCamera makeDefault fov={50} position={[0, 5, 20]} />
 
       <color args={[0.1, 0.1, 0.1]} attach="background" />

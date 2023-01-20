@@ -13,7 +13,9 @@ import TextContent from "../components/textContent";
 
 export default function Home({ alldayMcData }) {
   const sortedAlldayMcData = alldayMcData;
-  sortedAlldayMcData.sort((a, b) => b.market_cap - a.market_cap);
+  sortedAlldayMcData.sort(
+    (a, b) => b.nfl_all_day.market_cap - a.nfl_all_day.market_cap
+  );
 
   const liveMarquee = Array.from(
     sortedAlldayMcData.slice(0, 10),
@@ -85,7 +87,7 @@ export default function Home({ alldayMcData }) {
       <Meta />
 
       {/* Board */}
-      <div
+      {/*  <div
         className={`duration-500 ring-offset-green-200 ring-green-200 hover:ring-4 hover:ring-offset-2 ring-opacity-50 justify-center grid-cols-5 rounded-3xl items-center absolute top-1/3 mx-auto left-0 right-0 w-1/2 bg-green-100/20 text-green-100 backdrop-blur-md z-50 h-auto p-4 gap-4 ${
           board ? "grid" : "hidden"
         } `}
@@ -127,11 +129,11 @@ export default function Home({ alldayMcData }) {
             <div className=" bg-green-100/20 rounded-lg h-full"></div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="h-screen">
         {/* Control Panel */}
-        <div className="absolute top-0 items-center space-y-3 duration-500 z-40 m-10">
+        {/*  <div className="absolute top-0 items-center space-y-3 duration-500 z-40 m-10">
           <div className=" space-y-2 lg:flex items-center lg:space-x-2  duration-500 lg:space-y-0 ">
             <a
               href="https://www.athlete.studio/"
@@ -421,7 +423,7 @@ export default function Home({ alldayMcData }) {
               dev_freecam: {free.toString()}
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* 2D Version */}
 
@@ -458,14 +460,14 @@ export default function Home({ alldayMcData }) {
               secondColor={secondColor}
               sortedAlldayMcData={sortedAlldayMcData}
             />
-            moment holder
-            <TextContent
+
+            {/*  <TextContent
               website={website}
               marquee={marquee}
               space={space}
               speed={speed}
               mainColor={mainColor}
-            />
+            /> */}
           </Suspense>
         </Canvas>
       </div>
@@ -477,7 +479,7 @@ export const getServerSideProps = async () => {
   /* https://api.athlete.studio/staging/v1/dashboard */
   /* https://api.athlete.studio/production/v1/athletes/ */
   const alldayMcRes = await fetch(
-    " https://api.athlete.studio/staging/v1/dashboard "
+    " https://api.athlete.studio/staging/v1/vshop "
   );
   const alldayMcData = await alldayMcRes.json();
 
