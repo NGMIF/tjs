@@ -29,7 +29,7 @@ export default function Content({
 }) {
   const itemsRef = useRef([]);
   const capsRef = useRef([]);
-
+  /* 
   useFrame(() => {
     for (let i = 0; i < itemsRef.current.length; i++) {
       let mesh = itemsRef.current[i];
@@ -48,7 +48,7 @@ export default function Content({
       mesh.position.set(-12.4, y, -z);
       i < cap ? (mesh.visible = true) : (mesh.visible = false);
     }
-  });
+  }); */
 
   return (
     <>
@@ -77,7 +77,7 @@ export default function Content({
       <Wall position={[0, 0, 0]} scale={[4, 4, 4]} />
       <Map position={[0.445, 1.12, 3.375]} scale={2.22} city={map} />
 
-      {Array.from(Array(15).keys()).map((v, i) => (
+      {/*       {Array.from(Array(15).keys()).map((v, i) => (
         <mesh key={i} ref={(el) => (itemsRef.current[i] = el)}>
           <Football
             scale={[4, 4, 4]}
@@ -99,7 +99,7 @@ export default function Content({
             athlete={athlete}
           />
         </mesh>
-      ))}
+      ))} */}
 
       <Svg
         src="/logos/allday.svg"

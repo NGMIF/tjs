@@ -94,7 +94,7 @@ export function Shelves(props) {
             {props.sortedAlldayMcData.map((athleteData, index) => (
               <div
                 key={index}
-                className="group relative bg-green-300/10 pl-1 pr-2 py-1 rounded-full grid items-center hover:bg-green-200/20 grid-cols-12 duration-300"
+                className="group relative bg-green-300/10 pl-1 pr-2 hover:pr-4 py-1 rounded-full grid items-center hover:bg-green-200/20 grid-cols-12 duration-300"
               >
                 {/*  <div
                   className={`z-20 w-28 p-0.5 overflow-hidden h-28 bg-green-200/20 shadow-md shadow-black rounded-lg right-20 hidden group-hover:flex absolute ${
@@ -117,13 +117,13 @@ export function Shelves(props) {
                     </p>
                   </video>
                 </div> */}
-                <div className=" border-green-100 group-hover:bg-green-300/40 duration-300 bg-green-100/20 group-hover:border-1  w-6 h-6 text-sm flex items-center justify-center rounded-full text-center font-semibold col-span-1">
+                <div className=" border-green-200/40 group-hover:bg-green-300/40 duration-300 bg-green-100/20 group-hover:border  w-6 h-6 text-sm flex items-center justify-center rounded-full text-center font-semibold col-span-1">
                   {index + 1}
                 </div>
                 <div className=" text-neutral-200 group-hover:text-neutral-50 ml-0 col-span-8">
                   {athleteData.name}
                 </div>
-                <div className=" text-neutral-200 group-hover:text-green-200 tracking-normal group-hover:tracking-wider leading-none group-hover:-translate-x-1 font-mono duration-300 text-end col-span-3">
+                <div className=" text-neutral-200 group-hover:text-green-200 tracking-wider leading-none font-mono duration-300 text-end col-span-3">
                   {athleteData.nfl_all_day.market_cap}
                 </div>
               </div>
